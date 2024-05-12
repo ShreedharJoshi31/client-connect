@@ -6,6 +6,7 @@ import Contacts from "./scenes/contacts";
 import Form from "./scenes/form";
 import UpdateForm from "./scenes/updateForm";
 import Login from "./scenes/login";
+import Register from "./scenes/Register";
 import Communications from "./scenes/communications";
 import SendEmail from "./scenes/sendEmail";
 import CreateCommunications from "./scenes/createCommunication";
@@ -29,6 +30,7 @@ function App() {
             {token && <Topbar setIsSidebar={setIsSidebar} />}
             <Routes>
               <Route path="/" element={<Navigate to="/login" />} />
+              <Route path="/register" element={<Register />} />
               <Route
                 path="/login"
                 element={!token ? <Login /> : <Navigate to="/contacts" />}

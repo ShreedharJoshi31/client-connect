@@ -9,6 +9,14 @@ export const login = createAsyncThunk("auth/login", async (credentials) => {
   return response.data;
 });
 
+export const register = createAsyncThunk("auth/register", async (userData) => {
+  const response = await axios.post(
+    "http://localhost:5000/api/users/register",
+    userData
+  );
+  return response.data;
+});
+
 export const getCustomers = createAsyncThunk(
   "customer/getCustomers",
   async (token) => {

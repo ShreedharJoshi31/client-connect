@@ -5,7 +5,7 @@ import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../app/asyncThunks";
+import { login, register } from "../../app/asyncThunks";
 import { login as loginAction } from "../../app/reducers/authSlice";
 import { useNavigate } from "react-router-dom";
 
@@ -16,15 +16,11 @@ const Login = () => {
   const { token } = useSelector((state) => state.auth);
 
   const handleClick = async (credentials) => {
-    dispatch({ type: "LOGIN_START" });
-
     try {
-      const result = await dispatch(login(credentials));
-      dispatch(loginAction(result.payload));
-
-      navigate("/dashboard");
+      const result = await dispatch(register(credentials));
+      navigate("/login");
     } catch (error) {
-      dispatch({ type: "LOGIN_FAILURE", payload: error.message });
+      console.error("Error creating customer:", error);
     }
   };
 
@@ -45,7 +41,7 @@ const Login = () => {
         justifyContent="center"
         textAlign="center"
       >
-        <Header title="LOGIN" subtitle="Enter your credentials" />
+        <Header title="Register" subtitle="Enter your credentials" />
 
         <Formik
           onSubmit={(values) => handleClick(values)}
@@ -61,6 +57,18 @@ const Login = () => {
             handleSubmit,
           }) => (
             <form onSubmit={handleSubmit} style={{ width: "100%" }}>
+              <TextField
+                fullWidth
+                variant="filled"
+                type="text"
+                label="Name"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                value={values.name}
+                name="name"
+                error={!!touched.name && !!errors.name}
+                helperText={touched.name && errors.name}
+              />
               <TextField
                 fullWidth
                 variant="filled"
@@ -92,7 +100,7 @@ const Login = () => {
                 width="100%"
               >
                 <Button type="submit" color="secondary" variant="contained">
-                  Login
+                  Register
                 </Button>
               </Box>
             </form>
@@ -101,10 +109,10 @@ const Login = () => {
         <Typography variant="body1" mt={2}>
           Don't have an account?{" "}
           <span
-            onClick={() => navigate("/register")}
+            onClick={() => navigate("/login")}
             style={{ textDecoration: "none", color: "red", cursor: "pointer" }}
           >
-            Register new user
+            Login here
           </span>
         </Typography>
       </Box>
@@ -113,11 +121,13 @@ const Login = () => {
 };
 
 const loginSchema = yup.object().shape({
+  name: yup.string().required("required"),
   email: yup.string().email("invalid email").required("required"),
   password: yup.string().required("required"),
 });
 
 const initialValues = {
+  name: "",
   email: "",
   password: "",
 };
