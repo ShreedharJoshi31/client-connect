@@ -6,18 +6,11 @@ const Customer = require("../models/Customer");
 const verifyToken = require("../middleware/auth");
 const nodemailer = require("nodemailer");
 
-const formatDateTime = (dateTimeString) => {
-  const dateTime = new Date(dateTimeString);
-  const date = dateTime.toLocaleDateString("en-US");
-  const time = dateTime.toLocaleTimeString("en-US");
-  return `${date} ${time}`;
-};
-
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "shreedharjoshi03@gmail.com",
-    pass: "xhmy znft zjmj hgwz",
+    user: process.env.EMAIL,
+    pass: process.env.PASSWORD,
   },
 });
 
