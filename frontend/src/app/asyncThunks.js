@@ -1,26 +1,22 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+const APIURL = "http://localhost:5000/api";
+
 export const login = createAsyncThunk("auth/login", async (credentials) => {
-  const response = await axios.post(
-    "http://localhost:5000/api/users/login",
-    credentials
-  );
+  const response = await axios.post(`${APIURL}users/login`, credentials);
   return response.data;
 });
 
 export const register = createAsyncThunk("auth/register", async (userData) => {
-  const response = await axios.post(
-    "http://localhost:5000/api/users/register",
-    userData
-  );
+  const response = await axios.post(`${APIURL}users/register`, userData);
   return response.data;
 });
 
 export const getCustomers = createAsyncThunk(
-  "customer/getCustomers",
+  `${APIURL}customer/getCustomers`,
   async (token) => {
-    const response = await axios.get("http://localhost:5000/api/customers", {
+    const response = await axios.get("customers", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -30,56 +26,45 @@ export const getCustomers = createAsyncThunk(
 );
 
 export const addCustomer = createAsyncThunk(
-  "customer/addCustomer",
+  `${APIURL}customer/addCustomer`,
   async ({ customer, token }) => {
-    const response = await axios.post(
-      "http://localhost:5000/api/customers",
-      customer,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const response = await axios.post("customers", customer, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   }
 );
 
 export const getCustomerById = createAsyncThunk(
-  "customer/getCustomerById",
+  `${APIURL}customer/getCustomerById`,
   async ({ id, token }) => {
-    const response = await axios.get(
-      `http://localhost:5000/api/customers/${id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const response = await axios.get(`customers/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   }
 );
 
 export const updateCustomer = createAsyncThunk(
-  "customer/updateCustomer",
+  `${APIURL}customer/updateCustomer`,
   async ({ id, customer, token }) => {
-    const response = await axios.put(
-      `http://localhost:5000/api/customers/${id}`,
-      customer,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const response = await axios.put(`customers/${id}`, customer, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   }
 );
 
 export const deleteCustomer = createAsyncThunk(
-  "customer/deleteCustomer",
+  `${APIURL}customer/deleteCustomer`,
   async ({ id, token }) => {
-    await axios.delete(`http://localhost:5000/api/customers/${id}`, {
+    await axios.delete(`customers/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -89,10 +74,10 @@ export const deleteCustomer = createAsyncThunk(
 );
 
 export const createCommunication = createAsyncThunk(
-  "communication/createCommunication",
+  `${APIURL}communication/createCommunication`,
   async ({ customerId, conversation, timestamp, token }) => {
     const response = await axios.post(
-      `http://localhost:5000/api/communications/${customerId}`,
+      `communications/${customerId}`,
       { conversation, timestamp },
       {
         headers: {
@@ -105,25 +90,22 @@ export const createCommunication = createAsyncThunk(
 );
 
 export const getCommunicationsByCustomerId = createAsyncThunk(
-  "communication/getCommunicationsByCustomerId",
+  `${APIURL}communication/getCommunicationsByCustomerId`,
   async ({ customerId, token }) => {
-    const response = await axios.get(
-      `http://localhost:5000/api/communications/${customerId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const response = await axios.get(`communications/${customerId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   }
 );
 
 export const createCommunicationsForAllCustomers = createAsyncThunk(
-  "communication/createCommunicationsForAllCustomers",
+  `${APIURL}communication/createCommunicationsForAllCustomers`,
   async ({ conversation, timestamp, token }) => {
     const response = await axios.post(
-      "http://localhost:5000/api/communications",
+      "communications",
       { conversation, timestamp },
       {
         headers: {
@@ -136,10 +118,10 @@ export const createCommunicationsForAllCustomers = createAsyncThunk(
 );
 
 export const sendEmail = createAsyncThunk(
-  "communication/sendEmail",
+  `${APIURL}communication/sendEmail`,
   async ({ subject, content, token }) => {
     const response = await axios.post(
-      "http://localhost:5000/api/communications/send-email",
+      "communications/send-email",
       { subject, content },
       {
         headers: {
