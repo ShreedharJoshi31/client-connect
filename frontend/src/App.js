@@ -12,8 +12,7 @@ import SendEmail from "./scenes/sendEmail";
 import CreateCommunications from "./scenes/createCommunication";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
-import { Provider, useSelector } from "react-redux";
-import store from "./app/store";
+import { useSelector } from "react-redux";
 
 function App() {
   const [theme, colorMode] = useMode();
