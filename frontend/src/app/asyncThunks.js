@@ -1,10 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const APIURL = "http://localhost:5000/api/";
+// const APIURL = "http://localhost:5000/api/";
+const APIURL = "https://client-connect.onrender.com/api/";
 
 export const login = createAsyncThunk("auth/login", async (credentials) => {
-  const response = await axios.post("${APIURL}users/login", credentials);
+  const response = await axios.post(`${APIURL}users/login`, credentials);
   return response.data;
 });
 
